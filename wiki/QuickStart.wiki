@@ -6,8 +6,7 @@
 下载最新的ibatis2-spring*.jar，并关联到项目中。
 
 ==配置spring的上下文==
-  修改项目中spring的配置文件
-    *添加各种数据库操作处理器
+  修改项目中spring的配置文件，添加各种数据库操作处理器
   {{{
         <bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.InsertHandler"/>
 	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.UpdateHandler"/>
@@ -19,7 +18,7 @@
 	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.BatchUpdateHandle"/>
 	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.QueryForPageResultHandle"/>
   }}}
-    *注册spring启动加载器，用于动态字节码生成DAO。
+    注册spring启动加载器，用于动态字节码生成DAO。
 {{{
 <bean class="org.oproject.framework.orm.ibatis.config.DynamicIbatisBeanFactoryPostProcessor">
 		<property name="scanPath">
