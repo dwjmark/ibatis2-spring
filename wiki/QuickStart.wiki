@@ -45,8 +45,9 @@ public interface UserDAO {
 </select>
 ......
 }}}
-在spring中调用DAO
+在service中调用DAO
 {{{
-@Autowird
+@Autowired
+@Qualifier("userDAO")
 private UserDAO userDAO;
 }}}
