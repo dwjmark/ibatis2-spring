@@ -29,7 +29,7 @@
 	</bean>
 }}}
 ==编写第一个DAO接口==
-添加接口
+添加接口,接口命名规范*{Namespace}*DAO
 {{{
 @DynamicIbatisDAO("userDAO")
 public interface UserDAO {
