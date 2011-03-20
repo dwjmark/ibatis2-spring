@@ -11,8 +11,8 @@
 <bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.InsertHandler"/>
 <bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.UpdateHandler"/>
 <bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.QueryForObjectHandle"/>
-	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.QueryForListHandle"/>
-	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.DeleteHandle"/>
+<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.QueryForListHandle"/>
+<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.DeleteHandle"/>
 <bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.BatchDeleteHandle"/>
 <bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.BatchInsertHandle"/>
 <bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.BatchUpdateHandle"/>
