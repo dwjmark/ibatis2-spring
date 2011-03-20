@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+`#summary One-sentence summary of this page.
 
 = 接口命名规范 =
 字节码增强DAO接口命名分为两部分组成，即Ibatis的_命名空间_+DAO(固定字符串)；
@@ -7,12 +7,12 @@ _例如:UserDAO对应的Ibatis查询命名空间为User。_
 
 
 = 接口源注释规范 =
-org.oproject.framework.orm.ibatis.bytecode.codegenerator.annotations.DynamicIbatisDAO
+`org.oproject.framework.orm.ibatis.bytecode.codegenerator.annotations.DynamicIbatisDAO`
 如果要在一个接口上实现字节码增强，必须定义该注释。
 参数：
   * 参数1 value:必填，实现类定义到spring容器中的id；
-  * 参数2 sqlMapClientTemplate:可选, 注入到DAO实现类中的SqlMapClientTemplate实例ID，默认"sqlMapClientTemplate"。
-_多数据源情况下，每个不同的数据源使用不同的sqlMapClientTemplate实例。_
+  * 参数2 `sqlMapClientTemplate`:可选, 注入到DAO实现类中的`SqlMapClientTemplate`实例ID，默认"`sqlMapClientTemplate`"。
+_多数据源情况下，每个不同的数据源使用不同的`sqlMapClientTemplate`实例。_
 
 
 = DAO查询方法命名规范 =
@@ -20,7 +20,14 @@ _多数据源情况下，每个不同的数据源使用不同的sqlMapClientTemp
 
 = 方法介绍 =
 ||数据访问类型||实现类||方法命名规则||参数说明||
-||查询单条记录|| QueryForObjectHandle || (load|get|select|read)[\\S]* ||参数arg0 必选；||
-|| 新增 || InsertHandler || `(save|insert|add)[\\S]*` || 参数arg0 必选 ||
+||查询单条记录|| `QueryForObjectHandle` || `(load|get|select|read)[\\S]*` ||参数arg0 必选；||
+|| 新增 || `InsertHandler` || `(save|insert|add)[\\S]*` || 参数arg0 必选 ||
+|| 修改 || `UpdateHandler` || `update[\\S]*` || 参数arg0 必选 ||
+|| 删除 || `DeleteHandle` || `(delete|remove|del)[\\S]*` || 参数arg0 必选 ||
+|| 批量新增 ||  ||  ||  ||
+|| 批量修改 ||  ||  ||  ||
+|| 批量删除 ||  ||  ||  ||
+|| 查询结果集 ||  ||  ||  ||
+|| 分页查询 ||  ||  ||  ||
 
-_所有基础字节码生成处理器都定义在org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl包中_
+_所有基础字节码生成处理器都定义在`org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl`包中_
