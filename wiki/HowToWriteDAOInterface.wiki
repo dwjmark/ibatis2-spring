@@ -19,4 +19,6 @@ _多数据源情况下，每个不同的数据源使用不同的sqlMapClientTemp
 
 = 方法介绍 =
 ||数据访问类型||实现类||方法命名规则||参数说明||
-||查询单条记录||org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.QueryForObjectHandle||(load|get|select|read)[\\S]*||参数arg0 必选；||
+||查询单条记录|| QueryForObjectHandle || (load|get|select|read)[\\S]* ||参数arg0 必选；||
+
+_所有基础字节码生成处理器都定义在org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl包中_
