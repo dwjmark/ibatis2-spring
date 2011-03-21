@@ -20,14 +20,14 @@ _多数据源情况下，每个不同的数据源使用不同的`sqlMapClientTem
 
 = 方法介绍 =
 ||数据访问类型||实现类||方法命名规则||参数说明|| 返回结果 ||
-||查询单条记录|| `QueryForObjectHandle` || `(load|get|select|read)[\\S]*` ||参数arg0 必选 || <T> 必选 ||
+||查询单条记录|| `QueryForObjectHandle` || `(load|get|select|read)[\\S]*` ||参数arg0 必选 || `<T> 必选` ||
 || 新增 || `InsertHandler` || `(save|insert|add)[\\S]*` || 参数arg0 必选 || int 新增记录数 可选 ||
 || 修改 || `UpdateHandler` || `update[\\S]*` || 参数arg0 必选 || int 更新的记录数 可选 ||
 || 删除 || `DeleteHandle` || `(delete|remove|del)[\\S]*` || 参数arg0 必选 || int 删除记录数 可选 ||
 || 批量新增 || `BatchInsertHandle` || `(save|insert|add)[\\S]*` || 参数Collection 必选 || void ||
 || 批量修改 || `BatchUpdateHandle` || `(batchUpdate)[\\S]*` || 参数Collection 必选 || void ||
 || 批量删除 || `BatchDeleteHandle` || `(batchDelete|batchRemove|batchDel)[\\S]*` || 参数Collection 必选 || void ||
-|| 查询结果集 || `QueryForListHandle` || `query[\\S]*ForList` || 参数Object 必选, (int start, int size) 成对可选 || List<T> 必选 ||
-|| 分页查询 || `QueryForPageResultHandle` || `query[\\S]*ForPageResult` || 参数Object 可选, (int pageNum, int pageSize) 成对可选 || PageResult<T> ||
+|| 查询结果集 || `QueryForListHandle` || `query[\\S]*ForList` || 参数Object 必选, (int start, int size) 成对可选 || `List<T> 必选` ||
+|| 分页查询 || `QueryForPageResultHandle` || `query[\\S]*ForPageResult` || 参数Object 可选, (int pageNum, int pageSize) 成对可选 || `PageResult<T>` ||
 
 _所有基础字节码生成处理器都定义在`org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl`包中_
