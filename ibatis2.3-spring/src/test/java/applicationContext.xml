@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p" 
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:jee="http://www.springframework.org/schema/jee" 
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+	<context:annotation-config/>
+	<aop:aspectj-autoproxy/>
+	<!-- 配置ibatis增强组建  start -->
+	<!-- 定义动态DAO层方法代理字节码生成器 -->
+	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.InsertHandler"/>
+	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.UpdateHandler"/>
+	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.QueryForObjectHandle"/>
+	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.QueryForListHandle"/>
+	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.DeleteHandle"/>
+	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.BatchDeleteHandle"/>
+	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.BatchInsertHandle"/>
+	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.BatchUpdateHandle"/>
+	<bean class="org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.impl.QueryForPageResultHandle"/>
+	<!-- 定义字节码增强的DAO接口包 -->
+	<bean class="org.oproject.framework.orm.ibatis.config.DynamicIbatisBeanFactoryPostProcessor">
+		<property name="scanPath">
+			<list>
+				<value>org.oproject.test.**.dao</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 配置ibatis增强组建  end -->
+	
+	<!-- 注册测试桩 -->
+	<bean id="mockery" class="org.oproject.test.ibatis4spring.mock.MockeryFactoryBean"/>
+	<!-- 注册模拟sqlMapClientTemplate对象 -->
+	<bean id="sqlMapClientTemplate" class="org.oproject.test.ibatis4spring.mock.SqlMapClientTemplateFactoryBean">
+		<property name="mockery" ref="mockery"/>
+	</bean>
+	
+	<bean id="cacheAspectj" class="org.oproject.test.ibatis4spring.aspectj.CacheAspectj" />
+</beans>
