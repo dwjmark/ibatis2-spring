@@ -57,9 +57,10 @@ public interface NativeQuery
 	String warpSQLStatement(String sql, int skipResults, int maxResults);
 }
 }}}
-sql参数是为包装前的sql语句，返回拼装后的SQL语句。
+sql参数是包装前的sql语句，返回拼装后的SQL语句。
+_`(例如:Mysql是在语句后增加"limit x y"。)`_
 框架提供了两种默认的实现：
-  * Oracle- `org.oproject.framework.orm.ibatis.NativeQuery`
+  * Oracle- `org.oproject.framework.orm.ibatis.query.OracleNativeQuery`
   * MySQL- `org.oproject.framework.orm.ibatis.query.MysqlNativeQuery`
 
 在Spring容器中配置本地查询优化器  
