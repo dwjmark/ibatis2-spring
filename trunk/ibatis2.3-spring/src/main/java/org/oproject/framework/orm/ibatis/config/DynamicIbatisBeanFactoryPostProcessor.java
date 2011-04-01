@@ -24,7 +24,9 @@ import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
@@ -119,17 +121,40 @@ public class DynamicIbatisBeanFactoryPostProcessor implements ApplicationContext
 		final Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
 		// 遍历资源集合
 		for(Resource resource : resources){
+			
 			// 获取类资源路径对象
-			final ClassPathResource classPathResource = new ClassPathResource(resource.getURI().getPath());
+			final ClassPathResource classPathResource;
 			// 应用上下文的classloader的基础路径URL服务器运行的classes目录
 			URL url = applicationContext.getClassLoader().getResource("/"); 
 			if(null == url){
 				url = applicationContext.getClassLoader().getResource("");
 			}
-			final String orginClassPath = classPathResource.getPath();
-			final String _orginClassPath = orginClassPath.replaceAll(" ", "%20");
+			final String orginClassPath;
+			final String _orginClassPath;
 			final String urlPath = url.getPath();
-			final String classPath = _orginClassPath.substring(urlPath.length() - 1);
+			final String classPath;
+			
+			// 当加载的resource资源是URL类型，例如jar包中的类资源。
+			if(resource instanceof UrlResource){
+				UrlResource urlResource = (UrlResource)resource;
+				String _urlPath = urlResource.getURL().getPath();
+				classPathResource = new ClassPathResource(_urlPath);
+				orginClassPath = classPathResource.getPath();
+				_orginClassPath = orginClassPath.replaceAll(" ", "%20");
+				int jarIndex = 0;
+				if(_orginClassPath.contains(".jar!")){
+					jarIndex = _orginClassPath.indexOf(".jar!") + 6;
+				}
+				classPath = _orginClassPath.substring(jarIndex);
+			}
+			// 当加载的resource资源是文件系统类型，则直接加载文件
+			else{
+				FileSystemResource fileSystemResource = (FileSystemResource)resource;
+				classPathResource = new ClassPathResource(fileSystemResource.getURI().getPath());
+				orginClassPath = classPathResource.getPath();
+				_orginClassPath = orginClassPath.replaceAll(" ", "%20");
+				classPath = _orginClassPath.substring(urlPath.length() - 1);
+			} 
 			
 			// 删除最后的".class"文件后缀，获取类名
 			final String className = classPath.replace("/", ".").substring(0, classPath.length() - 6);
