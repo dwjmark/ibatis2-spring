@@ -8,6 +8,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -20,6 +22,7 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
 import org.oproject.framework.orm.ibatis.bytecode.codegenerator.method.MethodGenerator;
 import org.oproject.framework.orm.ibatis.bytecode.codegenerator.property.BeanPropertyAndSetterMethodGenerator;
+import org.springframework.core.annotation.AnnotationUtils;
 
 /**
  * <p>
@@ -102,7 +105,45 @@ public class DynamicDAOImplClassGenerator implements Opcodes {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		this.classNode.accept(cw);
 		net.sf.cglib.core.ReflectUtils.defineClass(targetClassName, cw.toByteArray(), Thread.currentThread().getContextClassLoader());
+		
+		//生成具体的类到文件
+		//writeClassToFile(cw);
 	}
+	
+	/**
+	 * 生成具体的类到文件
+	 * @param cw
+	 */
+	private void writeClassToFile(ClassWriter cw) {
+		 final byte[] bs = cw.toByteArray();  
+		 java.io.OutputStream out = null;
+		try {
+			java.io.File file = new java.io.File(targetClassNamePath+".class");
+			java.io.File filep = file.getParentFile();
+			if(!filep.exists())
+			{
+				filep.mkdirs();
+			}
+			System.out.println("write asm class to : " + file.getAbsolutePath());
+			out = new java.io.FileOutputStream(file);
+		     out.write(bs);  
+		} catch (java.io.IOException e) {
+			e.printStackTrace();
+		} 
+		finally
+		{
+			if(out != null)
+			{
+				try
+				{
+					out.close();
+				}catch(java.io.IOException e) {
+					e.printStackTrace();
+				} 
+			}
+		}
+	}
+
 	
 	/**
 	 * 初始化类
@@ -171,7 +212,10 @@ public class DynamicDAOImplClassGenerator implements Opcodes {
 				 * 依次拷贝源注解中的属性到实现类上
 				 */
 				AnnotationVisitor av = this.classNode.visitAnnotation(BytecodeUtils.getClassDesc(annotationClazz), true);
-				copyAnnotationToVisitor(ann, av);
+				//copyAnnotationToVisitor(ann, av);
+				
+				//直接由Spring 反射
+				copyAnnotationToVisitorBySpring(ann, av);
 				av.visitEnd();
 			}
 		}
@@ -236,9 +280,32 @@ public class DynamicDAOImplClassGenerator implements Opcodes {
 				// 获取源注解的类型
 				// 获取元注解中定义的方法，这里不支持继承关系的元注解
 				AnnotationVisitor av = mn.visitAnnotation(BytecodeUtils.getClassDesc(annotation.annotationType()), true);
-				copyAnnotationToVisitor(annotation, av);
+				//copyAnnotationToVisitor(annotation, av);
+				
+				//直接由Spring 反射
+				copyAnnotationToVisitorBySpring(annotation, av);
 				av.visitEnd();
 			}
+		}
+	}
+	
+	/**
+	 * 直接通过Spring 的AnnotationUtils类获得注解属性，并添加到visit
+	 * @param annotation
+	 * @param av
+	 */
+	private void copyAnnotationToVisitorBySpring(Annotation annotation,
+			AnnotationVisitor av)
+	{
+		Map<String, Object> map = AnnotationUtils.getAnnotationAttributes(annotation);
+        Set<Map.Entry<String,Object>> set = map.entrySet();
+        for (Map.Entry<String, Object> entry : set) {
+        	String key = entry.getKey();
+        	Object obj = entry.getValue();
+        	if(obj != null && obj.toString() != null && !(obj.toString().trim().equals("")))
+        	{
+        		av.visit(key, obj);
+        	}	
 		}
 	}
 
