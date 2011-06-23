@@ -302,10 +302,24 @@ public class DynamicDAOImplClassGenerator implements Opcodes {
         for (Map.Entry<String, Object> entry : set) {
         	String key = entry.getKey();
         	Object obj = entry.getValue();
-        	if(obj != null && obj.toString() != null && !(obj.toString().trim().equals("")))
+        	if(obj.getClass().isArray())
+        	{
+        		AnnotationVisitor arrayAV = av.visitArray(key);
+        		Object[] valueArray = (Object[])obj;
+    			for(Object val : valueArray){
+    				warpVisitAnnotationValue(val.getClass(), "", val, arrayAV);
+    			}
+    			arrayAV.visitEnd();
+        	}
+        	else if(obj.getClass().isEnum()){
+    			av.visitEnum(key, BytecodeUtils.getClassDesc(obj.getClass()), obj.toString());
+    		}
+        	else
         	{
         		av.visit(key, obj);
-        	}	
+        	}
+        	
+        	
 		}
 	}
 
