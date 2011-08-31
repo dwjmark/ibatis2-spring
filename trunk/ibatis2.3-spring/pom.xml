@@ -116,21 +116,27 @@
 			<artifactId>spring-tx</artifactId>
 			<version>3.0.6.RELEASE</version>
 		</dependency>
-		<!-- 
 		<dependency>
-			<artifactId>..</artifactId>
-			<groupId>..</groupId>
-			<scope>test</scope>
-			<systemPath>${basedir}/testlib/testdaoinjar.jar</systemPath>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-lgpl</artifactId>
+			<version>1.8.1</version>
 		</dependency>
- 		-->
- 		<dependency>
- 			<artifactId>testdaoinjar</artifactId>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-lgpl</artifactId>
+			<version>1.8.1</version>
+		</dependency>
+
+		<!-- <dependency> <artifactId>..</artifactId> <groupId>..</groupId> <scope>test</scope> 
+			<systemPath>${basedir}/testlib/testdaoinjar.jar</systemPath> </dependency> -->
+		<dependency>
+			<artifactId>testdaoinjar</artifactId>
 			<groupId>testdaoinjar</groupId>
 			<scope>system</scope>
 			<version>1.0</version>
- 			<systemPath>${basedir}/testlib/testdaoinjar.jar</systemPath>
- 		</dependency>
+			<systemPath>${basedir}/testlib/testdaoinjar.jar</systemPath>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
