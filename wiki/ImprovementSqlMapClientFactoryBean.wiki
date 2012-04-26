@@ -1,0 +1,15 @@
+#labels Phase-Implementation
+用在Spring中配置SqlMapClientFactoryBean工厂的时候用本包提供的SqlMapClientFactoryBean来替换。
+
+<bean id="sqlMapClient0" class="org.oproject.framework.orm.ibatis.SqlMapClientFactoryBean"> 
+        <property name="dataSource" ref="dataSource0"></property>
+        <property name="lobHandler" ref="defaultLobHandler"/>
+        <property name="configLocation"> 
+            <value>classpath:mapping/ds0/SqlMapConfig-ds0.xml</value> 
+        </property>
+        <property name="mappingLocations"> 
+            <value>classpath*:/mapping/ds0/**/*-sql${ds0}.xml</value>
+        </property>    
+</bean>
+
+可以解决用mappingLocations加载方式不能正确注册缓存模式到SqlMapClientFactoryBean的bug。而且加载sql配置文件的时候默认按a-z的顺序加载
